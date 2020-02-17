@@ -211,9 +211,9 @@ $(document).ready(function() {
         video: {
           width: phonecaptureResolutionWidth,
           height: phonecaptureResolutionWidth,
-          frameRate: 10
-        }
-      };
+          frameRate: 10,
+          facingMode: { exact: "environment" }
+        }};
 
       navigator.mediaDevices.getUserMedia(constraints)
         .then(function(mediaStream) {
