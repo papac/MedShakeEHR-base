@@ -668,10 +668,18 @@ class msPDF
                 }
             }
 
-            // génère le code barr rpps et adelie en fonction du des infos du praticien
-            $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-            $p['page']['courrier']['rppsbarcode'] = base64_encode($generator->getBarcode($this->_courrierData['AuteurInitial_rpps'], $generator::TYPE_CODE_128));
-            $p['page']['courrier']['adelibarcode'] = base64_encode($generator->getBarcode($this->_courrierData['AuteurInitial_adeli'], $generator::TYPE_CODE_128));
+            // génère le fichier image contenan les codes bares rpps et adeli si il n'existe pas avant de générer le template
+            $svg_rpps = $p['config']['webDirectory'].$p['config']['stockageLocation'].'barecode_rpps-'.$this->_courrierData['AuteurInitial_rpps'].'.svg';
+            $svg_adeli = $p['config']['webDirectory'].$p['config']['stockageLocation'].'barecode_adeli-'.$this->_courrierData['AuteurInitial_rpps'].'.svg';
+            if (! file_exists($svg_rpps)) {
+                $generator = new Picqer\Barcode\BarcodeGeneratorSVG();
+
+                file_put_contents($svg_rpps, $generator->getBarcode($this->_courrierData['AuteurInitial_rpps'], $generator::TYPE_CODE_128));
+            }
+            if (! file_exists($svg_adeli)) {
+                $generator = new Picqer\Barcode\BarcodeGeneratorSVG();
+                file_put_contents($svg_adeli, $generator->getBarcode($this->_courrierData['AuteurInitial_adeli'], $generator::TYPE_CODE_128));
+            }
 
             //si on sort en mode ald alors on va annuler les header et footer standard
             if ($modePrint=='ald') {
@@ -684,6 +692,7 @@ class msPDF
 
             //on génère le body avec twig
             $this->_body =  $this->makeWithTwig($this->_courrierData['printModel']);
+
         }
 
     }

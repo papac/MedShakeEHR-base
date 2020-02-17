@@ -105,8 +105,8 @@
                 </div>
             </div>
             <div id="footer">
-                <p>RPPS<br><img src="data:image/png;base64,{{ tag.rppsbarcode }}" style="width : 130px; height : 40px"><figcaption>{{ tag.AuteurInitial_rpps  }}</figcaption></p>
-                <p>ADELI<br><img src="data:image/png;base64,{{ tag.rppsbarcode }}" style="width : 130px; height : 40px"><figcaption>{{ tag.AuteurInitial_adeli  }}</figcaption></p>
+                <p>RPPS<br><img src="./{{ config.urlHostSuffixe }}/{{ config.stockageLocation }}barecode_rpps-{{ tag.AuteurInitial_rpps  }}.svg" style="width : 130px; height : 40px"><figcaption>{{ tag.AuteurInitial_rpps  }}</figcaption></p>
+                <p>ADELI<br><img src="./{{ config.urlHostSuffixe }}/{{ config.stockageLocation }}barecode_adeli-{{ tag.AuteurInitial_rpps  }}.svg" style="width : 130px; height : 40px"><figcaption>{{ tag.AuteurInitial_adeli  }}</figcaption></p>
                 <p><br>Membre d’une AGA, règlement par chèque accepté.</p>
             </div>
 
