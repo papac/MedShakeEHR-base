@@ -356,6 +356,10 @@ class msCourrier
             throw new Exception('PatientID is not numeric');
         }
 
+        if(!empty($this->_objetData)) {
+            $this->_getObjetData();
+        }
+
         $tabRetour = $this->_getPatientData($this->_patientID);
         $tabRetour['date']=date('Y-m-d H:i:s');
         // ajouter tags date
@@ -369,6 +373,16 @@ class msCourrier
           $tabRetour=$tabRetour+$this->_getPsData($this->_fromID,'UtilisateurActif_');
         } elseif(isset($p['user']['id'])) {
           $tabRetour=$tabRetour+$this->_getPsData($p['user']['id'],'UtilisateurActif_');
+        }
+
+        //si $this->_objectData existe récupére les donnée de son auteur initiale
+        if(empty($this->_objectData)) {
+            $tabRetour=$tabRetour+$this->_getPsData($p['user']['id'],'AuteurInitial_');
+        }
+        //sinon (cas nouveau document) utilise les donnée de l'utilisateur courant pour les données
+        //de l'auteur initiale (permet de récupérer l'info dans les template)
+        else {
+            $tabRetour=$tabRetour+$this->_getPsData($this->_objetData['fromID'],'AuteurInitial_');
         }
 
         if (!isset($this->_modeleID) and is_numeric($this->_objetID)) {
